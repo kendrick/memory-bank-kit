@@ -31,6 +31,8 @@ echo "Last modified:"
 for f in "$BANK_DIR"/*.md; do
   [ -f "$f" ] || continue
   BASENAME=$(basename "$f")
+  # BSD stat (macOS) and GNU stat (Linux) take incompatible flags for
+  # formatted output, so the format string itself has to switch.
   if [[ "$OSTYPE" == "darwin"* ]]; then
     MOD=$(stat -f '%Sm' -t '%Y-%m-%d %H:%M' "$f")
   else
