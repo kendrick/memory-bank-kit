@@ -36,7 +36,7 @@ curl -fsSL https://raw.githubusercontent.com/yourorg/memory-bank-kit/main/init.s
 irm https://raw.githubusercontent.com/yourorg/memory-bank-kit/main/init.ps1 | iex
 ```
 
-Replace `yourorg` with the GitHub org or wherever this repo is host.
+Replace `yourorg` with the GitHub org or wherever this repo is hosted.
 
 The installer **detects your stack, prompts before overwriting anything, and drops the following** into your project:
 
@@ -85,7 +85,7 @@ Two named presets ship in `.memory-bankrc.example`:
 
 ## Why these defaults
 
-Twenty lines is the cap because past that, `activeContext.md` have have stopped being a queue and could have started being an archive. The point of the file is to be cheap to read and cheap to refresh. If your current focus needs more than twenty lines to describe, the bank itself may be doing the wrong job.
+Twenty lines is the cap because past that, `activeContext.md` has stopped being a queue and could have started being an archive. The point of the file is to be cheap to read and cheap to refresh. If your current focus needs more than twenty lines to describe, the bank itself may be doing the wrong job.
 
 Five files **or** two hundred lines for the nudge because the two signals catch different sessions: lots of small touches (you spread changes across the surface area) versus one big diff (you refactored). Either way, the bank usually needs to know.
 
