@@ -227,6 +227,15 @@ EOF
   ok "pre-populated memory-bank/projectOverview.md with detected stack"
 fi
 
+# ---------- .memory-bankrc.example ----------
+
+# We ship the example, not the rc itself. Defaults are baked into the hook
+# scripts; the rc is opt-in for teams that want to override line limits or
+# nudge thresholds. Devs cp it to .memory-bankrc when they need it.
+copy_if_absent \
+  "$TEMPLATE/.memory-bankrc.example" \
+  "$TARGET_DIR/.memory-bankrc.example"
+
 # ---------- AGENTS.md (merge or create) ----------
 
 append_section_if_missing \
@@ -339,6 +348,8 @@ say "  3. Teammates: after cloning, run:"
 say "       cp memory-bank/activeContext.example.md memory-bank/activeContext.md"
 say "  4. To sync the bank: invoke the memory-bank-synchronizer agent, or"
 say "     run: ./scripts/update-memory-bank.sh"
+say "  5. To tune line limits or nudge thresholds:"
+say "       cp .memory-bankrc.example .memory-bankrc   # then edit"
 
 if [ "$PARITY_OK" -eq 0 ]; then
   say ""

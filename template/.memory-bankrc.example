@@ -1,0 +1,31 @@
+# memory-bank-kit configuration (optional).
+# Copy or rename to .memory-bankrc and commit it to share team-level overrides.
+# Per-developer env vars (MEMORY_BANK_MAX_LINES, MEMORY_BANK_FILE_THRESHOLD,
+# MEMORY_BANK_LINE_THRESHOLD) take precedence over this file.
+
+# How many non-empty lines activeContext.md may grow to before SessionStart
+# warns. The spec's hard limit is 20. Higher values give more queue room at
+# the cost of larger session-start context.
+MAX_ACTIVE_CONTEXT_LINES=20
+
+# Files changed in the working tree before Stop nudges you to update the bank.
+NUDGE_FILE_THRESHOLD=5
+
+# OR total inserted+deleted lines before the same nudge fires. Catches single-
+# file refactors that file count would miss.
+NUDGE_LINE_THRESHOLD=200
+
+# --- alternative presets ---
+# Uncomment one block to opt in. Comment out the defaults above first.
+
+# preset: strict — frequent updates, tighter discipline.
+# Good for early-stage projects iterating on architecture weekly.
+# MAX_ACTIVE_CONTEXT_LINES=15
+# NUDGE_FILE_THRESHOLD=3
+# NUDGE_LINE_THRESHOLD=100
+
+# preset: loose — mature codebase, less context churn.
+# Good when most work is incremental and constant nudges become noise.
+# MAX_ACTIVE_CONTEXT_LINES=40
+# NUDGE_FILE_THRESHOLD=10
+# NUDGE_LINE_THRESHOLD=500

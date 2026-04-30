@@ -17,10 +17,31 @@ if [ ! -d "$BANK_DIR" ]; then
   exit 1
 fi
 
+# Same key=value parser the hooks use (kept inline to avoid making this
+# script depend on a shared lib).
+read_cfg() {
+  local key="$1" default="$2" file="$REPO_ROOT/.memory-bankrc"
+  local val=""
+  [ -f "$file" ] && val=$(grep -E "^${key}=" "$file" 2>/dev/null | head -1 | cut -d= -f2- | tr -d ' "'\''')
+  echo "${val:-$default}"
+}
+
+# Env var > .memory-bankrc > built-in default. Same precedence as the hooks,
+# so what this script reports matches what SessionStart and Stop will use.
+MAX_LINES="${MEMORY_BANK_MAX_LINES:-$(read_cfg MAX_ACTIVE_CONTEXT_LINES 20)}"
+FILE_THRESHOLD="${MEMORY_BANK_FILE_THRESHOLD:-$(read_cfg NUDGE_FILE_THRESHOLD 5)}"
+LINE_THRESHOLD="${MEMORY_BANK_LINE_THRESHOLD:-$(read_cfg NUDGE_LINE_THRESHOLD 200)}"
+
+echo "Active config:"
+echo "  activeContext.md max lines: $MAX_LINES"
+echo "  Nudge: > $FILE_THRESHOLD files OR > $LINE_THRESHOLD lines changed"
+[ -f "$REPO_ROOT/.memory-bankrc" ] && echo "  (source: .memory-bankrc; env vars override per developer)"
+echo ""
+
 # activeContext.md status
 if [ -f "$BANK_DIR/activeContext.md" ]; then
   LINES=$(grep -c '[^[:space:]]' "$BANK_DIR/activeContext.md" || echo 0)
-  echo "activeContext.md: $LINES non-empty lines (limit: 20)"
+  echo "activeContext.md: $LINES non-empty lines (limit: $MAX_LINES)"
 else
   echo "activeContext.md: MISSING — run: cp memory-bank/activeContext.example.md memory-bank/activeContext.md"
 fi

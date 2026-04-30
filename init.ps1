@@ -210,6 +210,14 @@ $dirs
     Write-Ok 'pre-populated memory-bank/projectOverview.md with detected stack'
 }
 
+# ---------- .memory-bankrc.example ----------
+
+# We ship the example, not the rc itself. Defaults are baked into the hook
+# scripts; the rc is opt-in for teams that want to override line limits or
+# nudge thresholds.
+Copy-IfAbsent (Join-Path $Template '.memory-bankrc.example') `
+              (Join-Path $TargetDir '.memory-bankrc.example')
+
 # ---------- AGENTS.md ----------
 
 $agentsTemplate = Get-Content (Join-Path $Template 'AGENTS.md') -Raw
@@ -309,6 +317,8 @@ Write-Host '  3. Teammates: after cloning, run:'
 Write-Host '       Copy-Item memory-bank\activeContext.example.md memory-bank\activeContext.md'
 Write-Host '  4. To sync the bank: invoke the memory-bank-synchronizer agent, or'
 Write-Host '     run: .\scripts\update-memory-bank.ps1'
+Write-Host '  5. To tune line limits or nudge thresholds:'
+Write-Host '       Copy-Item .memory-bankrc.example .memory-bankrc   # then edit'
 
 if (-not $parityOk) {
     Write-Host ''
